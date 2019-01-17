@@ -1,0 +1,30 @@
+{
+  "name": "@heat/test",
+  "version": "0.0.1",
+  "license": "MIT",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/heat-js/test.git"
+  },
+  "bugs": {
+    "url": "https://github.com/heat-js/test/issues"
+  },
+  "scripts": {
+    "patch": "yarn publish --patch",
+    "minor": "yarn publish --minor",
+    "major": "yarn publish --major",
+    "prepublish": "bash ./build.sh",
+    "postpublish": "yarn cleanup",
+    "cleanup": "rm *.js"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.389.0",
+    "dynamo-db-local": "^3.1.1",
+    "jest": "^23.6.0",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "coffeescript": "^2.3.2"
+  }
+}

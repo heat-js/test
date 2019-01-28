@@ -25,6 +25,7 @@ export start = (params = {}) ->
 			}, resource.Properties
 
 			delete properties.BillingMode
+			delete properties.TimeToLiveSpecification
 			delete properties.PointInTimeRecoverySpecification
 
 			tables.push properties

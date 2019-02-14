@@ -14,21 +14,31 @@ export start = (params = {}) ->
 	tables = []
 
 	for name, resource of resources
+		if resource.Type isnt 'AWS::DynamoDB::Table'
+			continue
 
-		if resource.Type is 'AWS::DynamoDB::Table'
+		throughput = {
+			ProvisionedThroughput: {
+				ReadCapacityUnits: 100
+				WriteCapacityUnits: 100
+			}
+		}
 
-			properties = Object.assign {
-				ProvisionedThroughput: {
-					ReadCapacityUnits: 1
-					WriteCapacityUnits: 1
-				}
-			}, resource.Properties
+		properties = Object.assign resource.Properties, throughput
 
-			delete properties.BillingMode
-			delete properties.TimeToLiveSpecification
-			delete properties.PointInTimeRecoverySpecification
+		if properties.LocalSecondaryIndexes
+			for index in properties.LocalSecondaryIndexes
+				Object.assign index, throughput
 
-			tables.push properties
+		if properties.GlobalSecondaryIndexes
+			for index in properties.GlobalSecondaryIndexes
+				Object.assign index, throughput
+
+		delete properties.BillingMode
+		delete properties.TimeToLiveSpecification
+		delete properties.PointInTimeRecoverySpecification
+
+		tables.push properties
 
 	dynamo = new AWS.DynamoDB {
 		apiVersion: 		'2012-08-10'

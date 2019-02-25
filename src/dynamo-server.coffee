@@ -8,6 +8,7 @@ export start = (params = {}) ->
 	params = Object.assign {
 		port: 9000
 		region: 'eu-west-1'
+		seed: {}
 	}, params
 
 	resources = YAML.load params.path
@@ -60,6 +61,12 @@ export start = (params = {}) ->
 
 		for table in tables
 			await dynamo.createTable(table).promise()
+
+		for Item, TableName of params.seed
+			await client.put {
+				TableName
+				Item
+			}
 
 	afterAll ->
 		await dynamoProcess.kill()

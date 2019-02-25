@@ -62,11 +62,12 @@ export start = (params = {}) ->
 		for table in tables
 			await dynamo.createTable(table).promise()
 
-		for Item, TableName of params.seed
-			await client.put {
-				TableName
-				Item
-			}
+		for TableName, Items of params.seed
+			for Item in Items
+				await client.put {
+					TableName
+					Item
+				}
 
 	afterAll ->
 		await dynamoProcess.kill()

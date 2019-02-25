@@ -20,20 +20,20 @@ export start = (params = {}) ->
 
 		throughput = {
 			ProvisionedThroughput: {
-				ReadCapacityUnits: 100
+				ReadCapacityUnits:  100
 				WriteCapacityUnits: 100
 			}
 		}
 
-		properties = Object.assign resource.Properties, throughput
+		properties = Object.assign {}, throughput, resource.Properties
 
 		if properties.LocalSecondaryIndexes
-			for index in properties.LocalSecondaryIndexes
-				Object.assign index, throughput
+			for entry, i in properties.LocalSecondaryIndexes
+				properties.LocalSecondaryIndexes[i] = Object.assign {}, throughput, entry
 
 		if properties.GlobalSecondaryIndexes
-			for index in properties.GlobalSecondaryIndexes
-				Object.assign index, throughput
+			for entry, i in properties.GlobalSecondaryIndexes
+				properties.GlobalSecondaryIndexes[i] = Object.assign {}, throughput, entry
 
 		delete properties.BillingMode
 		delete properties.TimeToLiveSpecification

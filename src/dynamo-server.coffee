@@ -68,6 +68,7 @@ export start = (params = {}) ->
 					TableName
 					Item
 				}
+				.promise()
 
 	afterAll ->
 		await dynamoProcess.kill()

@@ -11,28 +11,22 @@
     "url": "https://github.com/heat-js/test/issues"
   },
   "scripts": {
-    "patch": "yarn publish --patch",
-    "minor": "yarn publish --minor",
-    "major": "yarn publish --major",
-    "prepublish": "bash ./build.sh",
-    "postpublish": "yarn cleanup",
-    "cleanup": "rm *.js"
-  },
-  "babel": {
-    "plugins": [
-      "babel-plugin-transform-es2015-modules-commonjs-optimized"
-    ]
+    "test": "./node_modules/.bin/jest",
+    "patch": "yarn version --patch; ./node_modules/.bin/ncp",
+    "minor": "yarn version --minor; ./node_modules/.bin/ncp",
+    "major": "yarn version --major; ./node_modules/.bin/ncp",
+    "deploy": "yarn version; ./node_modules/.bin/ncp"
   },
   "dependencies": {
-    "aws-sdk": "^2.389.0",
-    "dynamo-db-local": "^3.1.1",
+    "dynamo-db-local": "^3.2.0",
     "jest": "^23.6.0",
     "jest-preset-coffeescript": "^1.0.0",
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-plugin-transform-es2015-modules-commonjs-optimized": "^6.16.0",
-    "coffeescript": "^2.3.2"
+    "@heat/npm-coffee-publisher": "^0.1.6"
+  },
+  "peerDependencies": {
+    "aws-sdk": "^2.389.0"
   }
 }

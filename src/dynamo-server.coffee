@@ -18,24 +18,25 @@ export start = (params = {}) ->
 		if resource.Type isnt 'AWS::DynamoDB::Table'
 			continue
 
-		throughput = {
-			ProvisionedThroughput: {
-				ReadCapacityUnits:  100
-				WriteCapacityUnits: 100
-			}
-		}
+		# throughput = {
+		# 	ProvisionedThroughput: {
+		# 		ReadCapacityUnits:  100
+		# 		WriteCapacityUnits: 100
+		# 	}
+		# }
 
-		properties = Object.assign {}, throughput, resource.Properties
+		# properties = Object.assign {}, throughput, resource.Properties
+		properties = Object.assign {}, resource.Properties
 
 		# if properties.LocalSecondaryIndexes
 			# for entry, i in properties.LocalSecondaryIndexes
 				# properties.LocalSecondaryIndexes[i] = Object.assign {}, throughput, entry
 
-		if properties.GlobalSecondaryIndexes
-			for entry, i in properties.GlobalSecondaryIndexes
-				properties.GlobalSecondaryIndexes[i] = Object.assign {}, throughput, entry
+		# if properties.GlobalSecondaryIndexes
+			# for entry, i in properties.GlobalSecondaryIndexes
+				# properties.GlobalSecondaryIndexes[i] = Object.assign {}, throughput, entry
 
-		delete properties.BillingMode
+		# delete properties.BillingMode
 		delete properties.TimeToLiveSpecification
 		delete properties.PointInTimeRecoverySpecification
 

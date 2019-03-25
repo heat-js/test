@@ -27,9 +27,9 @@ export start = (params = {}) ->
 
 		properties = Object.assign {}, throughput, resource.Properties
 
-		if properties.LocalSecondaryIndexes
-			for entry, i in properties.LocalSecondaryIndexes
-				properties.LocalSecondaryIndexes[i] = Object.assign {}, throughput, entry
+		# if properties.LocalSecondaryIndexes
+			# for entry, i in properties.LocalSecondaryIndexes
+				# properties.LocalSecondaryIndexes[i] = Object.assign {}, throughput, entry
 
 		if properties.GlobalSecondaryIndexes
 			for entry, i in properties.GlobalSecondaryIndexes
@@ -41,7 +41,7 @@ export start = (params = {}) ->
 
 		tables.push properties
 
-	dynamo = new AWS.DynamoDB {
+	dbOptions = {
 		apiVersion: 		'2012-08-10'
 		endpoint: 			"http://localhost:#{params.port}"
 		region: 			params.region
@@ -49,7 +49,7 @@ export start = (params = {}) ->
 		secretAccessKey: 	'fake'
 	}
 
-	client = new AWS.DynamoDB.DocumentClient { service: dynamo }
+	dynamo = new AWS.DynamoDB dbOptions
 
 	dynamoProcess = null
 
@@ -73,4 +73,11 @@ export start = (params = {}) ->
 	afterAll ->
 		await dynamoProcess.kill()
 
-	return client
+	return {
+		dynamodb: ->
+			return new AWS.DynamoDB dbOptions
+		documentClient: ->
+			return new AWS.DynamoDB.DocumentClient {
+				service: new AWS.DynamoDB dbOptions
+			}
+	}

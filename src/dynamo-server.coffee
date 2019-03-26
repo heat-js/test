@@ -51,6 +51,9 @@ export start = (params = {}) ->
 	}
 
 	dynamo = new AWS.DynamoDB dbOptions
+	client = new AWS.DynamoDB.DocumentClient {
+		service: dynamo
+	}
 
 	dynamoProcess = null
 

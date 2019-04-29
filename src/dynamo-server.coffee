@@ -76,6 +76,7 @@ export start = (params = {}) ->
 
 	afterAll ->
 		await dynamoProcess.kill()
+	, 30 * 1000
 
 	return {
 		dynamodb: ->

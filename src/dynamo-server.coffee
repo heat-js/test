@@ -6,9 +6,10 @@ import YAML				from 'yamljs'
 export start = (params = {}) ->
 
 	params = Object.assign {
-		port: 9000
-		region: 'eu-west-1'
-		seed: {}
+		port: 		9000
+		region: 	'eu-west-1'
+		seed: 		{}
+		timeout: 	30 * 1000
 	}, params
 
 	resources = YAML.load params.path
@@ -72,11 +73,11 @@ export start = (params = {}) ->
 					Item
 				}
 				.promise()
-	, 30 * 1000
+	, params.timeout
 
 	afterAll ->
 		await dynamoProcess.kill()
-	, 30 * 1000
+	, params.timeout
 
 	return {
 		dynamodb: ->

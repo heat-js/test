@@ -58,7 +58,6 @@ export start = (params = {}) ->
 	dynamoProcess = null
 
 	beforeAll ->
-
 		dynamoProcess = await dynamoDbLocal.spawn {
 			port: params.port
 		}
@@ -73,6 +72,7 @@ export start = (params = {}) ->
 					Item
 				}
 				.promise()
+	, 30 * 1000
 
 	afterAll ->
 		await dynamoProcess.kill()

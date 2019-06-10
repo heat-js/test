@@ -25,10 +25,10 @@
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
-    "@heat/npm-coffee-publisher": "^0.1.6"
+    "@heat/npm-coffee-publisher": "^0.1.6",
+    "coffeescript": "^2.4.1"
   },
   "peerDependencies": {
-    "aws-sdk": "^2.389.0",
-    "coffeescript": "^2.3.2"
+    "aws-sdk": "^2.389.0"
   }
 }

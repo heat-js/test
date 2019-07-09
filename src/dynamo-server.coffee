@@ -1,7 +1,8 @@
 
+import fs				from 'fs'
 import AWS				from 'aws-sdk'
 import dynamoDbLocal	from 'dynamo-db-local'
-import YAML				from 'yamljs'
+import YAML				from 'js-yaml'
 
 export start = (params = {}) ->
 
@@ -12,7 +13,9 @@ export start = (params = {}) ->
 		timeout: 	30 * 1000
 	}, params
 
-	resources = YAML.load params.path
+	yaml	  = fs.readFileSync params.path
+	resources = YAML.safeLoad yaml
+
 	tables = []
 
 	for name, resource of resources

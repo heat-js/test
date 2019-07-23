@@ -2,9 +2,9 @@
 import path 	 from 'path'
 import { start } from '../src/step-functions-server'
 
-describe 'Test Step Functions Server with Mocks', ->
+jest.setTimeout 15000
 
-	jest.setTimeout 15000
+describe 'Test Step Functions Server with Mocks', ->
 
 	taskToken = null
 
@@ -101,3 +101,5 @@ describe 'Test Step Functions Server with Mocks', ->
 
 		expect mocks.Lambda
 			.toHaveBeenCalled()
+
+	return

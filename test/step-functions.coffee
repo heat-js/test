@@ -101,5 +101,3 @@ describe 'Test Step Functions Server with Mocks', ->
 
 		expect mocks.Lambda
 			.toHaveBeenCalled()
-
-	return

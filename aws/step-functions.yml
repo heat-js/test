@@ -23,7 +23,7 @@ TestStepFunctions:
         ResultPath: $.output
       SQS:
         Type: Task
-        Next: SNS
+        Next: SQS2
         Resource: arn:aws:states:::sqs:sendMessage
         Parameters:
           QueueUrl: https://sqs.#{AWS::Region}.amazonaws.com/#{AWS::AccountId}/dummyQueue
@@ -34,6 +34,14 @@ TestStepFunctions:
             queue:
               DataType: String
               StringValue: dummyQueue
+        ResultPath: null
+      SQS2:
+        Type: Task
+        Next: SNS
+        Resource: arn:aws:states:::sqs:sendMessage
+        Parameters:
+          QueueUrl: https://sqs.#{AWS::Region}.amazonaws.com/#{AWS::AccountId}/dummyQueue2
+          MessageBody: someData
         ResultPath: null
       SNS:
         Type: Task

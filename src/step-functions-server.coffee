@@ -169,7 +169,6 @@ export start = (mocks, params = {}) ->
 		sqsWebServer = startWebServer params.sqsPort, (ctx) ->
 			message    	= querystring.decode ctx.request.body
 			messageBody = message.MessageBody
-			# messageAttr = message.MessageAttributes
 			messageMd5 	= crypto.createHash('md5').update(messageBody).digest 'hex'
 
 			xml = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>

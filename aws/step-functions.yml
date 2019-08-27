@@ -26,10 +26,14 @@ TestStepFunctions:
         Next: SNS
         Resource: arn:aws:states:::sqs:sendMessage
         Parameters:
-          QueueUrl: https://sqs.#{AWS::Region}.amazonaws.com/#{AWS::AccountId}/some_queue
+          QueueUrl: https://sqs.#{AWS::Region}.amazonaws.com/#{AWS::AccountId}/dummyQueue
           MessageBody:
             data.$: $
             state.$: $$
+          MessageAttributes:
+            queue:
+              DataType: String
+              StringValue: dummyQueue
         ResultPath: null
       SNS:
         Type: Task

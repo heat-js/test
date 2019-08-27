@@ -52,7 +52,9 @@ export start = (mocks, params = {}) ->
 		for stateMachineName, resource of resources
 			definition = resource.definition
 			for stateName, state of definition.States
-				if state.Type is 'Task' and state.Resource.indexOf('arn:aws:lambda') > -1
+				if state.Type is 'Task' and state.Resource is 'arn:aws:states:::sqs:sendMessage'
+					state.Parameters.QueueUrl = "http://localhost:#{params.sqsPort}"
+				else if state.Type is 'Task' and state.Resource.indexOf('arn:aws:lambda') > -1
 					state.Resource = [
 						'arn'
 						'aws'

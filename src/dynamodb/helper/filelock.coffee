@@ -1,6 +1,6 @@
 
 import lockfile		from 'proper-lockfile'
-import ensureFile 	from './ensure-file.coffee'
+import ensureFile 	from './ensure-file'
 
 export default (timeout = 5000) ->
 

@@ -1,7 +1,3 @@
-# TMP!!
-src/dynamodb
-src/step-functions
-
 # dotenv environment variables file
 .env
 

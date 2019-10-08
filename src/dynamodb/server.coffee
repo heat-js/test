@@ -3,8 +3,7 @@ import fs				from 'fs'
 import AWS				from 'aws-sdk'
 import dynamoDbLocal	from 'dynamo-db-local'
 import YAML				from 'js-yaml'
-import getPort 			from 'get-port'
-import filelock 		from './helper/filelock'
+import portFinder 		from './helper/port-finder'
 
 export default class DynamoDBServer
 
@@ -16,6 +15,8 @@ export default class DynamoDBServer
 			timeout: 	30 * 1000
 		}, config
 
+		@port = @config.port
+
 	start: ->
 		tables = @_getTables @config.path
 
@@ -24,14 +25,15 @@ export default class DynamoDBServer
 
 		beforeAll =>
 			if not @config.port
-				unlock = await filelock @config.timeout
-				@config.port = await getPort()
+				{ unlock, port } = await portFinder()
+				@unlock = unlock
+				@port	= port
 
 				for instance in @instances
-					instance.endpoint.port = @config.port
+					instance.endpoint.port = @port
 
 			dynamoProcess = await dynamoDbLocal.spawn {
-				port: @config.port
+				port: @port
 			}
 
 			dynamo = @_createDynamo()
@@ -42,9 +44,6 @@ export default class DynamoDBServer
 			for table in tables
 				await dynamo.createTable(table).promise()
 
-			if unlock
-				unlock()
-
 			for TableName, Items of @config.seed
 				for Item in Items
 					await client.put {
@@ -54,8 +53,11 @@ export default class DynamoDBServer
 					.promise()
 		, @config.timeout
 
-		afterAll ->
+		afterAll =>
 			await dynamoProcess.kill()
+			if @unlock
+				await @unlock()
+
 		, @config.timeout
 
 		return {
@@ -91,7 +93,7 @@ export default class DynamoDBServer
 	_createDynamo: ->
 		instance = new AWS.DynamoDB {
 			apiVersion: 		'2016-11-23'
-			endpoint: 			"http://localhost:#{@config.port}"
+			endpoint: 			"http://localhost:#{@port}"
 			region: 			@config.region
 			sslEnabled:			false
 			accessKeyId:		'fake'

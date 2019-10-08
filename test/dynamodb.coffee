@@ -6,7 +6,7 @@ import AWS 			from 'aws-sdk'
 describe 'Test DynamoDB server', ->
 
 	servers = []
-	promises = [0..9].map (i) ->
+	promises = [1..3].map (i) ->
 		dynamo = start {
 			path: './aws/dynamodb.yml'
 		}
@@ -46,14 +46,3 @@ describe 'Test DynamoDB server', ->
 
 		expect unique.length
 			.toBe ports.length
-
-	it 'should acquire multiple locks without error', ->
-		promises = [0..9].map (i) ->
-			unlock = await filelock()
-			unlock()
-			return i
-
-		results = await Promise.all promises
-
-		expect results.length
-			.toBe 10

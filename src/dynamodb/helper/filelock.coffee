@@ -2,12 +2,13 @@
 import lockfile		from 'proper-lockfile'
 import ensureFile 	from './ensure-file'
 
-export default (timeout = 5000) ->
+export default (name, timeout = 1000 * 60 * 5) ->
 
 	# ---------------------------------------------------------
 	# First make sure the path is writeable
 
-	lockPath = "/var/tmp/dynamodb-offline-server"
+	lockPath = "/var/tmp/dynamodb-offline-server-#{name}"
+	# console.log lockPath
 	await ensureFile lockPath
 
 	# ---------------------------------------------------------
@@ -16,11 +17,7 @@ export default (timeout = 5000) ->
 	unlock = await lockfile.lock lockPath, {
 		stale: timeout
 		retries:
-			retries: 	Math.floor timeout / 1000
-			factor: 	1
-			minTimeout: 1000
-			maxTimeout: timeout
-			randomize: 	true
+			retries: 0
 	}
 
 	return unlock

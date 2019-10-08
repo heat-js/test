@@ -10,6 +10,8 @@ describe 'Test DynamoDB server', ->
 		dynamo = start {
 			path: './aws/dynamodb.yml'
 		}
+		# client 	 = dynamo.documentClient()
+		# console.log client.service.endpoint
 		servers.push dynamo
 
 	it 'should check all spawned dynamodb instances', ->
@@ -25,6 +27,9 @@ describe 'Test DynamoDB server', ->
 			client 	 = dynamo.documentClient()
 			port 	 = client.service.endpoint.port
 
+			expect port
+				.not.toBe 80
+
 			expect dynamodb instanceof AWS.DynamoDB
 				.toBe true
 
@@ -35,6 +40,8 @@ describe 'Test DynamoDB server', ->
 				.toBe 'number'
 
 			ports.push port
+
+		console.log ports
 
 		# ---------------------------------------------------------
 		# Check if the all instances have a different port

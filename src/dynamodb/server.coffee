@@ -26,6 +26,7 @@ export default class DynamoDBServer
 		beforeAll =>
 			if not @config.port
 				{ unlock, port } = await portFinder()
+
 				@unlock = unlock
 				@port	= port
 
@@ -93,12 +94,13 @@ export default class DynamoDBServer
 	_createDynamo: ->
 		instance = new AWS.DynamoDB {
 			apiVersion: 		'2016-11-23'
-			endpoint: 			"http://localhost:#{@port}"
+			endpoint: 			"http://localhost"
 			region: 			@config.region
 			sslEnabled:			false
 			accessKeyId:		'fake'
 			secretAccessKey:	'fake'
 		}
+		instance.endpoint.port = @port or 80
 		@instances.push instance
 		return instance
 

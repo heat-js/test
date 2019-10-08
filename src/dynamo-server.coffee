@@ -80,6 +80,7 @@ export start = (params = {}) ->
 	return {
 		dynamodb: ->
 			return new AWS.DynamoDB dbOptions
+
 		documentClient: ->
 			return new AWS.DynamoDB.DocumentClient {
 				service: new AWS.DynamoDB dbOptions

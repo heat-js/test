@@ -1,6 +1,6 @@
 {
   "name": "@heat/test",
-  "version": "0.1.1",
+  "version": "0.2.31",
   "license": "MIT",
   "private": false,
   "repository": {
@@ -17,14 +17,27 @@
     "major": "yarn version --major; ./node_modules/.bin/ncp",
     "deploy": "yarn version; ./node_modules/.bin/ncp"
   },
+  "jest": {
+    "preset": "jest-preset-coffeescript",
+    "testEnvironment": "node",
+    "rootDir": "./test/"
+  },
   "dependencies": {
+    "@babel/core": "^7.5.0",
+    "@heat/step-functions-local": "^0.0.6",
+    "asl-validator": "^1.3.0",
     "dynamo-db-local": "^3.2.0",
-    "jest": "^23.6.0",
-    "jest-preset-coffeescript": "^1.0.0",
-    "yamljs": "^0.3.0"
+    "get-port": "^5.0.0",
+    "jest": "^24.8.0",
+    "jest-preset-coffeescript": "^1.1.1",
+    "js-yaml": "^3.13.1",
+    "koa": "^2.7.0",
+    "proper-lockfile": "^4.1.1"
   },
   "devDependencies": {
-    "@heat/npm-coffee-publisher": "^0.1.6"
+    "@heat/npm-coffee-publisher": "^0.1.6",
+    "aws-sdk": "^2.473.0",
+    "coffeescript": "^2.4.1"
   },
   "peerDependencies": {
     "aws-sdk": "^2.389.0"

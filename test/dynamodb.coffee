@@ -5,14 +5,23 @@ import AWS 			from 'aws-sdk'
 
 describe 'Test DynamoDB server', ->
 
+	clients = []
 	servers = []
 	promises = [1..3].map (i) ->
 		dynamo = start {
 			path: './aws/dynamodb.yml'
 		}
-		# client 	 = dynamo.documentClient()
-		# console.log client.service.endpoint
+		clients.push dynamo.documentClient()
 		servers.push dynamo
+
+	it 'should be able to connect and store an item in dynamo', ->
+		await clients[0].put {
+			TableName: 'test'
+			Item: {
+				id: 'test'
+			}
+		}
+		.promise()
 
 	it 'should check all spawned dynamodb instances', ->
 		ports = []
@@ -27,6 +36,9 @@ describe 'Test DynamoDB server', ->
 			client 	 = dynamo.documentClient()
 			port 	 = client.service.endpoint.port
 
+			expect dynamodb.endpoint.port
+				.toBe port
+
 			expect port
 				.not.toBe 80
 
@@ -40,8 +52,6 @@ describe 'Test DynamoDB server', ->
 				.toBe 'number'
 
 			ports.push port
-
-		console.log ports
 
 		# ---------------------------------------------------------
 		# Check if the all instances have a different port

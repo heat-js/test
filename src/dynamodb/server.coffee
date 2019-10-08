@@ -8,7 +8,11 @@ import portFinder 		from './helper/port-finder'
 export default class DynamoDBServer
 
 	constructor: (config = {}) ->
-		@instances = []
+		@instances = {
+			dynamos: []
+			clients: []
+		}
+
 		@config = Object.assign {}, {
 			region: 	'eu-west-1'
 			seed: 		{}
@@ -21,7 +25,6 @@ export default class DynamoDBServer
 		tables = @_getTables @config.path
 
 		dynamoProcess = null
-		dbOptions	  = null
 
 		beforeAll =>
 			if not @config.port
@@ -30,17 +33,18 @@ export default class DynamoDBServer
 				@unlock = unlock
 				@port	= port
 
-				for instance in @instances
-					instance.endpoint.port = @port
+				for dynamo in @instances.dynamos
+					dynamo.endpoint.port = @port
+
+				for client in @instances.clients
+					client.service.endpoint.port = @port
 
 			dynamoProcess = await dynamoDbLocal.spawn {
 				port: @port
 			}
 
 			dynamo = @_createDynamo()
-			client = new AWS.DynamoDB.DocumentClient {
-				service: dynamo
-			}
+			client = @_createDocumentClient()
 
 			for table in tables
 				await dynamo.createTable(table).promise()
@@ -58,16 +62,13 @@ export default class DynamoDBServer
 			await dynamoProcess.kill()
 			if @unlock
 				await @unlock()
-
 		, @config.timeout
 
 		return {
 			dynamodb: =>
 				return @_createDynamo()
 			documentClient: =>
-				return new AWS.DynamoDB.DocumentClient {
-					service: @_createDynamo()
-				}
+				return @_createDocumentClient()
 		}
 
 	_getTables: (path) ->
@@ -94,15 +95,25 @@ export default class DynamoDBServer
 	_createDynamo: ->
 		instance = new AWS.DynamoDB {
 			apiVersion: 		'2016-11-23'
-			endpoint: 			"http://localhost"
+			endpoint: 			"http://localhost:#{@port or 80}"
 			region: 			@config.region
 			sslEnabled:			false
 			accessKeyId:		'fake'
 			secretAccessKey:	'fake'
 		}
-		instance.endpoint.port = @port or 80
-		@instances.push instance
+
+		@instances.dynamos.push instance
+
 		return instance
+
+	_createDocumentClient: ->
+		client = new AWS.DynamoDB.DocumentClient {
+			service: @_createDynamo()
+		}
+
+		@instances.clients.push client
+
+		return client
 
 
 export start = (config = {}) ->

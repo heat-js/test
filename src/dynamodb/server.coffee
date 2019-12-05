@@ -22,7 +22,11 @@ export default class DynamoDBServer
 		@port = @config.port
 
 	start: ->
-		tables = @_getTables @config.path
+		paths = [ @config.path ].flat()
+		paths = paths.flat()
+
+		tables = paths.map (path) => @_getTables path
+		tables = tables.flat()
 
 		dynamoProcess = null
 

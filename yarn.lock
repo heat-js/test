@@ -1188,7 +1188,7 @@ domexception@^1.0.1:
   dependencies:
     webidl-conversions "^4.0.2"
 
-dynamo-db-local@^3.2.0:
+dynamo-db-local@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/dynamo-db-local/-/dynamo-db-local-3.2.1.tgz#786bf8ad419da6f771a76938a6da8d923bca5431"
   integrity sha512-w7E509bl9OqPlUZr9kcK/yuqTxNWftcrw8f/5KX1Gzexiq4HnGYr7QW4/U8ZnwY0pBbEJvrNWjaD2nkMzrvSww==

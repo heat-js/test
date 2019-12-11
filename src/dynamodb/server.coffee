@@ -92,6 +92,9 @@ export default class DynamoDBServer
 			delete properties.TimeToLiveSpecification
 			delete properties.PointInTimeRecoverySpecification
 
+			if properties.StreamSpecification
+				properties.StreamSpecification.StreamEnabled = true
+
 			tables.push properties
 
 		return tables

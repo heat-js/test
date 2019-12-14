@@ -1,6 +1,5 @@
 
-import { start } 	from '../src/dynamodb/server'
-import filelock 	from '../src/dynamodb/helper/filelock'
+import { start } 	from '../src/dynamodb/index'
 import AWS 			from 'aws-sdk'
 
 describe 'Test DynamoDB server', ->

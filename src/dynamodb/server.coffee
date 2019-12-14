@@ -1,7 +1,6 @@
 
 import AWS				from 'aws-sdk'
 import dynamoDbLocal	from 'dynamo-db-local'
-# import portFinder 		from './helper/port-finder'
 
 export default class Server
 
@@ -24,9 +23,6 @@ export default class Server
 	destroy: ->
 		if @process
 			await @process.kill()
-
-		# if @unlock
-		# 	await @unlock()
 
 	dynamodb: ->
 		instance = new AWS.DynamoDB {

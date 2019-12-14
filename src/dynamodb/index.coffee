@@ -13,7 +13,7 @@ export start = (config = {}) ->
 
 	fs 			= new FileSystem
 	portFinder	= new PortFinder fs
-	server		= new Server config.region, config.port
+	server		= new Server config.region
 	stream 		= new StreamEmitter config.stream, definitions
 	migrator	= new Migrator server.dynamodb(), definitions
 	seeder		= new Seeder server.documentClient(), config.seed

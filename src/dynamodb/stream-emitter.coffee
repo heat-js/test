@@ -16,7 +16,11 @@ export default class StreamEmitter
 
 	hasListeners: (table) ->
 		listeners = @listeners[ table ]
-		return Array.isArray listeners or typeof listeners is 'function'
+
+		return (
+			( Array.isArray listeners ) or
+			( typeof listeners is 'function' )
+		)
 
 	emit: (table, Key, OldImage, NewImage) ->
 		if not @hasListeners table
@@ -110,7 +114,7 @@ export default class StreamEmitter
 				}
 
 			.filter (item) =>
-				return @hasListeners item.TableName
+				return @hasListeners item.table
 
 
 	transactWrite: (client, transactWrite, params) ->
@@ -127,7 +131,7 @@ export default class StreamEmitter
 				newData = await Promise.all items.map ({ table, key }) =>
 					return @getItem client, table, key
 
-				await Promise.all [ 0...items.length ].map (index) ->
+				await Promise.all [ 0...items.length ].map (index) =>
 					table		= items[index].table
 					key			= items[index].key
 					oldImage	= oldData[index]

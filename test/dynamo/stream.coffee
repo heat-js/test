@@ -8,7 +8,7 @@ describe 'DynamoDB stream', ->
 	dynamo = start {
 		path: './aws/dynamodb.yml'
 		stream: {
-			test: [ listener ]
+			test: listener
 		}
 	}
 
@@ -24,4 +24,33 @@ describe 'DynamoDB stream', ->
 		.promise()
 
 		expect listener
-			.toHaveBeenCalled()
+			.toHaveBeenCalledTimes 1
+
+		await client.update {
+			TableName: 'test'
+			Key: { id: 'test' }
+			UpdateExpression: 'set #field = :value'
+			ExpressionAttributeNames:
+				'#field': 'field'
+			ExpressionAttributeValues:
+				':value': 'value'
+		}
+		.promise()
+
+		expect listener
+			.toHaveBeenCalledTimes 2
+
+		await client.transactWrite {
+			TransactItems: [
+				{
+					Put:
+						TableName: 'test'
+						Item:
+							id: 'test-2'
+				}
+			]
+		}
+		.promise()
+
+		expect listener
+			.toHaveBeenCalledTimes 3

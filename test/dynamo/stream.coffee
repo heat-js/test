@@ -40,6 +40,15 @@ describe 'DynamoDB stream', ->
 		expect listener
 			.toHaveBeenCalledTimes 2
 
+		await client.delete {
+			TableName: 'test'
+			Key: { id: 'test' }
+		}
+		.promise()
+
+		expect listener
+			.toHaveBeenCalledTimes 3
+
 		await client.transactWrite {
 			TransactItems: [
 				{
@@ -53,4 +62,19 @@ describe 'DynamoDB stream', ->
 		.promise()
 
 		expect listener
-			.toHaveBeenCalledTimes 3
+			.toHaveBeenCalledTimes 4
+
+		await client.transactWrite {
+			TransactItems: [
+				{
+					Delete:
+						TableName: 'test'
+						Key:
+							id: 'test-2'
+				}
+			]
+		}
+		.promise()
+
+		expect listener
+			.toHaveBeenCalledTimes 5

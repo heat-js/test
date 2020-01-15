@@ -9,10 +9,12 @@ export default class StreamEmitter
 		transactWrite	= client.transactWrite.bind client
 		update			= client.update.bind client
 		put				= client.put.bind client
+		deleteFn		= client.delete.bind client
 
 		client.transactWrite	= (params) => return @transactWrite client, transactWrite, params
 		client.update			= (params) => return @update client, update, params
 		client.put 				= (params) => return @put client, put, params
+		client.delete 			= (params) => return @delete client, deleteFn, params
 
 	hasListeners: (table) ->
 		listeners = @listeners[ table ]
@@ -64,6 +66,7 @@ export default class StreamEmitter
 		request = update params
 
 		{ Key, TableName } = params
+
 		if not @hasListeners TableName
 			return request
 
@@ -99,6 +102,25 @@ export default class StreamEmitter
 				return result
 		}
 
+	delete: (client, deleteFn, params) ->
+		request = deleteFn params
+
+		{ TableName, Key } = params
+
+		if not @hasListeners TableName
+			return request
+
+		return {
+			promise: =>
+				OldImage	= await @getItem client, TableName, Key
+				result		= await request.promise()
+				NewImage	= await @getItem client, TableName, Key
+
+				await @emit TableName, Key, OldImage, NewImage
+
+				return result
+		}
+
 	filterTransactItems: (items) ->
 		return items
 			.map (item) =>
@@ -106,6 +128,12 @@ export default class StreamEmitter
 					return {
 						table:	item.Put.TableName
 						key:	@getPrimaryKey item.Put.TableName, item.Put.Item
+					}
+
+				if item.Delete
+					return {
+						table:	item.Delete.TableName
+						key:	item.Delete.Key
 					}
 
 				return {

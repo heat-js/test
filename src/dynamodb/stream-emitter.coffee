@@ -136,6 +136,12 @@ export default class StreamEmitter
 						key:	item.Delete.Key
 					}
 
+				if item.ConditionCheck
+					return {
+						table:	item.ConditionCheck.TableName
+						key:	item.ConditionCheck.Key
+					}
+
 				return {
 					table:	item.Update.TableName
 					key:	item.Update.Key

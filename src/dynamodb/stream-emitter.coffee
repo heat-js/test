@@ -24,7 +24,7 @@ export default class StreamEmitter
 			( typeof listeners is 'function' )
 		)
 
-	emit: (table, Key, OldImage, NewImage) ->
+	emit: (table, eventName, Key, OldImage, NewImage) ->
 		if not @hasListeners table
 			return
 
@@ -39,7 +39,10 @@ export default class StreamEmitter
 		return Promise.all listeners.map (listener) ->
 			return listener {
 				Records: [
-					{ dynamodb: { Keys: Key, OldImage, NewImage } }
+					{
+						eventName
+						dynamodb: { Keys: Key, OldImage, NewImage }
+					}
 				]
 			}
 
@@ -76,7 +79,7 @@ export default class StreamEmitter
 				result		= await request.promise()
 				NewImage	= await @getItem client, TableName, Key
 
-				await @emit TableName, Key, OldImage, NewImage
+				await @emit TableName, 'MODIFY', Key, OldImage, NewImage
 
 				return result
 		}
@@ -97,7 +100,7 @@ export default class StreamEmitter
 				result		= await request.promise()
 				NewImage	= await @getItem client, TableName, Key
 
-				await @emit TableName, Key, OldImage, NewImage
+				await @emit TableName, 'INSERT', Key, OldImage, NewImage
 
 				return result
 		}
@@ -116,7 +119,7 @@ export default class StreamEmitter
 				result		= await request.promise()
 				NewImage	= await @getItem client, TableName, Key
 
-				await @emit TableName, Key, OldImage, NewImage
+				await @emit TableName, 'REMOVE', Key, OldImage, NewImage
 
 				return result
 		}
@@ -126,14 +129,16 @@ export default class StreamEmitter
 			.map (item) =>
 				if item.Put
 					return {
-						table:	item.Put.TableName
-						key:	@getPrimaryKey item.Put.TableName, item.Put.Item
+						eventName: 'INSERT'
+						table:		item.Put.TableName
+						key:		@getPrimaryKey item.Put.TableName, item.Put.Item
 					}
 
 				if item.Delete
 					return {
-						table:	item.Delete.TableName
-						key:	item.Delete.Key
+						eventName: 'REMOVE'
+						table:		item.Delete.TableName
+						key:		item.Delete.Key
 					}
 
 				if item.ConditionCheck
@@ -143,8 +148,9 @@ export default class StreamEmitter
 					}
 
 				return {
-					table:	item.Update.TableName
-					key:	item.Update.Key
+					eventName: 'MODIFY'
+					table:		item.Update.TableName
+					key:		item.Update.Key
 				}
 
 			.filter (item) =>
@@ -166,12 +172,14 @@ export default class StreamEmitter
 					return @getItem client, table, key
 
 				await Promise.all [ 0...items.length ].map (index) =>
+					eventName	= items[index].eventName
 					table		= items[index].table
 					key			= items[index].key
 					oldImage	= oldData[index]
 					newImage	= newData[index]
 
-					return @emit table, key, oldImage, newImage
+					if eventName
+						return @emit table, eventName, key, oldImage, newImage
 
 				return result
 		}

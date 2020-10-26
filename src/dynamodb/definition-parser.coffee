@@ -31,6 +31,7 @@ export default class DefinitionParser
 
 			delete properties.TimeToLiveSpecification
 			delete properties.PointInTimeRecoverySpecification
+			delete properties.Tags
 
 			if properties.StreamSpecification
 				properties.StreamSpecification.StreamEnabled = true

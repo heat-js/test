@@ -16,3 +16,7 @@ TestTable:
     KeySchema:
       - AttributeName: id
         KeyType: HASH
+
+    Tags:
+      - Key: Test
+        Value: !Ref TestTable

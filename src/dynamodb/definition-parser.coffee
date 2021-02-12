@@ -1,6 +1,7 @@
 
-import fs		from 'fs'
-import YAML		from 'js-yaml'
+import fs							from 'fs'
+import YAML							from 'js-yaml'
+import { CLOUDFORMATION_SCHEMA }	from 'cloudformation-js-yaml-schema'
 
 export default class DefinitionParser
 
@@ -15,7 +16,9 @@ export default class DefinitionParser
 
 	parseFile: (path) ->
 		yaml      = fs.readFileSync path
-		resources = YAML.safeLoad yaml
+		resources = YAML.load yaml, {
+			schema: CLOUDFORMATION_SCHEMA
+		}
 
 		return @parse resources
 

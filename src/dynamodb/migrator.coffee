@@ -1,9 +1,9 @@
 
 export default class Migrator
 
-	constructor: (@db, @definitions) ->
+	constructor: (@db) ->
 
-	migrate: ->
-		for definition in @definitions
+	migrate: (definitions) ->
+		for definition in definitions
 			await @db.createTable definition
 				.promise()

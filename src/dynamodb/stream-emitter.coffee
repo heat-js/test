@@ -5,6 +5,8 @@ export default class StreamEmitter
 
 	constructor: (@listeners = {}, @definitions) ->
 
+	setDefinitions: (@definitions) ->
+
 	attach: (client) ->
 		transactWrite	= client.transactWrite.bind client
 		update			= client.update.bind client

@@ -8,14 +8,13 @@ import Server			from './server'
 import StreamEmitter	from './stream-emitter'
 
 export start = (config = {}) ->
-	parser		= new DefinitionParser config.path
-	definitions = parser.parseFiles config.path
-
+	# console.log config
+	parser		= new DefinitionParser
 	fs 			= new FileSystem
 	portFinder	= new PortFinder fs
 	server		= new Server config.region
-	stream 		= new StreamEmitter config.stream, definitions
-	migrator	= new Migrator server.dynamodb(), definitions
+	stream 		= new StreamEmitter config.stream
+	migrator	= new Migrator server.dynamodb()
 	seeder		= new Seeder server.documentClient(), config.seed
 
 	timeout		= config.timeout or 30 * 1000
@@ -23,8 +22,12 @@ export start = (config = {}) ->
 	beforeAll ->
 		port = config.port or await portFinder.find()
 
+		definitions = await parser.parse config.path
+		# definitions = []
+		stream.setDefinitions definitions
+
 		await server.listen port
-		await migrator.migrate()
+		await migrator.migrate definitions
 		await seeder.seed()
 
 	, timeout

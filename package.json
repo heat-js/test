@@ -37,7 +37,7 @@
     "redis-server": "^1.2.2"
   },
   "devDependencies": {
-    "@heat/npm-coffee-publisher": "^0.2.0",
+    "@heat/npm-coffee-publisher": "^0.1.6",
     "aws-sdk": "^2.473.0",
     "coffeescript": "^2.4.1"
   },

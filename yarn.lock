@@ -287,10 +287,10 @@
     webpack "^5.6.0"
     webpack-node-externals "^2.5.2"
 
-"@heat/npm-coffee-publisher@^0.1.6":
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/@heat/npm-coffee-publisher/-/npm-coffee-publisher-0.1.6.tgz#2418cb0fa288af6bd4e5bbc18474da24ad8e5be9"
-  integrity sha512-nNzXMHab6SOgoPgncvSG1UuYsveYcbqz9SNjHN6laWbNQnyAfH+DSQml6Xl6V679kCy1Q4AiBTEQTbw6MLTgnQ==
+"@heat/npm-coffee-publisher@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@heat/npm-coffee-publisher/-/npm-coffee-publisher-0.2.0.tgz#4ed58eea33f0a423e4a22ecc1e1070f49bc9c8fc"
+  integrity sha512-zFuhxhQpizcLCXNuDIBitBbw+yifSjGwaT2Jpder25nWQXIoi6JelxCQPT0n0FNp32WdiKCiv1PpkoO0XQr4fA==
   dependencies:
     "@babel/core" "^7.4.0"
     babel-plugin-transform-es2015-modules-commonjs "^6.26.2"

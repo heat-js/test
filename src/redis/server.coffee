@@ -23,7 +23,10 @@ export default class Server
 			client.options.port = @port
 			client.connection_options.port = @port
 
-		@process = new RedisServer { port: @port }
+		@process = new RedisServer {
+			port: @port
+			# conf: __dirname + '/redis.conf'
+		}
 		await @process.open()
 		await @flushData()
 

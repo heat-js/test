@@ -17,4 +17,5 @@ describe 'Test Redis server', ->
 				clients[0].GET 'test', (error, data) ->
 					resolve data
 
-		console.log result
+		expect result
+			.toBe 'test'

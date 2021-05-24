@@ -56,7 +56,7 @@ export default class DefinitionParser
 		}
 		resources = {}
 		for stack in stacks
-			template = JSON.parse stack.template
+			template = JSON.parse stack.templateBody
 			Object.assign resources, template.Resources
 
 		definitions = []

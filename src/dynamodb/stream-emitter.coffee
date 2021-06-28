@@ -8,11 +8,13 @@ export default class StreamEmitter
 	setDefinitions: (@definitions) ->
 
 	attach: (client) ->
+		batchWrite		= client.batchWrite.bind client
 		transactWrite	= client.transactWrite.bind client
 		update			= client.update.bind client
 		put				= client.put.bind client
 		deleteFn		= client.delete.bind client
 
+		client.batchWrite		= (params) => return @batchWrite client, batchWrite, params
 		client.transactWrite	= (params) => return @transactWrite client, transactWrite, params
 		client.update			= (params) => return @update client, update, params
 		client.put 				= (params) => return @put client, put, params
@@ -164,6 +166,55 @@ export default class StreamEmitter
 		return {
 			promise: =>
 				items = @filterTransactItems params.TransactItems
+
+				oldData = await Promise.all items.map ({ table, key }) =>
+					return @getItem client, table, key
+
+				result = await request.promise()
+
+				newData = await Promise.all items.map ({ table, key }) =>
+					return @getItem client, table, key
+
+				await Promise.all [ 0...items.length ].map (index) =>
+					eventName	= items[index].eventName
+					table		= items[index].table
+					key			= items[index].key
+					oldImage	= oldData[index]
+					newImage	= newData[index]
+
+					if eventName
+						return @emit table, eventName, key, oldImage, newImage
+
+				return result
+		}
+
+	filterRequestItems: (items) ->
+		return Object
+			.entries items
+			.map ([ table, entries ]) =>
+				return entries.map (entry) =>
+					if entry.PutRequest
+						return {
+							table
+							eventName: 'INSERT'
+							key:		@getPrimaryKey table, entry.PutRequest.Item
+						}
+
+					if entry.DeleteRequest
+						return {
+							table
+							eventName: 'REMOVE'
+							key:		entry.DeleteRequest.Key
+						}
+			.flat()
+			.filter (item) =>
+				return @hasListeners item.table
+
+	batchWrite: (client, batchWrite, params) ->
+		request = batchWrite params
+		return {
+			promise: =>
+				items = @filterRequestItems params.RequestItems
 
 				oldData = await Promise.all items.map ({ table, key }) =>
 					return @getItem client, table, key

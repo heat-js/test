@@ -49,32 +49,37 @@ import { load } from '@heat/awsless'
 
 export default class DefinitionParser
 
-	parse: (path) ->
-		stacks = await load path, {
-			resolveRemoteResolvers: false
-			resolveLocalResolvers: false
-		}
-		resources = {}
-		for stack in stacks
-			template = JSON.parse stack.template
-			Object.assign resources, template.Resources
-
+	parse: (paths) ->
 		definitions = []
-		for name, resource of resources
-			if resource.Type isnt 'AWS::DynamoDB::Table'
-				continue
 
-			properties = Object.assign {}, resource.Properties
+		if not Array.isArray paths
+			paths = [ paths ]
 
-			properties.BillingMode = 'PAY_PER_REQUEST'
+		await Promise.all paths.map (path) ->
+			stacks = await load path, {
+				resolveRemoteResolvers: false
+				resolveLocalResolvers:	false
+			}
 
-			delete properties.TimeToLiveSpecification
-			delete properties.PointInTimeRecoverySpecification
-			delete properties.Tags
+			for stack in stacks
+				template	= JSON.parse stack.templateBody
+				resources	= template.Resources
 
-			if properties.StreamSpecification
-				properties.StreamSpecification.StreamEnabled = true
+				for name, resource of resources
+					if resource.Type isnt 'AWS::DynamoDB::Table'
+						continue
 
-			definitions.push properties
+					properties = Object.assign {}, resource.Properties
+
+					properties.BillingMode = 'PAY_PER_REQUEST'
+
+					delete properties.TimeToLiveSpecification
+					delete properties.PointInTimeRecoverySpecification
+					delete properties.Tags
+
+					if properties.StreamSpecification
+						properties.StreamSpecification.StreamEnabled = true
+
+					definitions.push properties
 
 		return definitions

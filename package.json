@@ -37,7 +37,9 @@
   "devDependencies": {
     "@heat/npm-coffee-publisher": "^0.1.6",
     "aws-sdk": "^2.473.0",
-    "coffeescript": "^2.4.1"
+    "coffeescript": "^2.4.1",
+    "jest": "^24.8.0",
+    "jest-preset-coffeescript": "1.1.1"
   },
   "peerDependencies": {
     "aws-sdk": "^2.389.0",

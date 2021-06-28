@@ -8,7 +8,7 @@ describe 'Test DynamoDB server', ->
 	servers = []
 	promises = [ 1..3 ].map (i) ->
 		dynamo = start {
-			path: './aws/dynamodb.yml'
+			path: './test/data/dynamodb.yml'
 		}
 		clients.push dynamo.documentClient()
 		servers.push dynamo

@@ -6,7 +6,7 @@ describe 'DynamoDB stream', ->
 	listener = jest.fn()
 
 	dynamo = start {
-		path: './aws/dynamodb.yml'
+		path: './test/data/dynamodb.yml'
 		stream: {
 			test: listener
 		}

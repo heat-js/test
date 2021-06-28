@@ -19,7 +19,7 @@ describe 'Test Step Functions Server with Mocks', ->
 
 	stateMachineArn = stepFunctions.create(
 		'TestStepFunction'
-		path.join __dirname, '../aws/step-functions.yml'
+		path.join __dirname, './data/step-functions.yml'
 	)
 
 	client = stepFunctions.client()

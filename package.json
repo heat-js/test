@@ -29,8 +29,6 @@
     "asl-validator": "^1.3.0",
     "dynamo-db-local": "^3.2.1",
     "get-port": "^5.0.0",
-    "jest": "^24.8.0",
-    "jest-preset-coffeescript": "1.1.1",
     "koa": "^2.7.0",
     "proper-lockfile": "^4.1.1",
     "redis": "^3.0.2",
@@ -42,6 +40,8 @@
     "coffeescript": "^2.4.1"
   },
   "peerDependencies": {
-    "aws-sdk": "^2.389.0"
+    "aws-sdk": "^2.389.0",
+    "jest": "^24.8.0",
+    "jest-preset-coffeescript": "1.1.1"
   }
 }

@@ -44,7 +44,7 @@ export start = (mocks, params = {}) ->
 
 	createStateMachine = (name, path) ->
 		yaml      = fs.readFileSync path
-		resources = await YAML.safeLoad yaml
+		resources = await YAML.load yaml
 
 		if resources.definition
 			resources = { resources }

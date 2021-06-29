@@ -306,10 +306,10 @@
     camel-case "4.1.2"
     tslib "~2.2.0"
 
-"@heat/awsless@^0.1.5":
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@heat/awsless/-/awsless-0.1.5.tgz#c3478ff214fa74525b8745b380633f185697cc7e"
-  integrity sha512-vxjFrAAN5V16v59l8LFQ+ABrS6R2h1+nVrNqGOACATsq0JRUZTpnjcKg4CGGwuHjOf5UYa9U+r8NyPCzgUYkWg==
+"@heat/awsless@^0.1.8":
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/@heat/awsless/-/awsless-0.1.8.tgz#b3d4cda580bba834fd7a95b23a6cfb09c4781ba7"
+  integrity sha512-ve7x2h0yQQJMqO6whllKSGg2syqI7RjyEuqBgfnzg9SqHSA1s0nSSmCYXwqsE3XCSwvDk2/sMHJO7sH025AKyg==
   dependencies:
     "@bugsnag/source-maps" "^2.0.0"
     "@graphql-tools/merge" "^6.2.7"
@@ -318,6 +318,7 @@
     aws-sdk "^2.795.0"
     boxen "^4.2.0"
     capitalize "^2.0.3"
+    cli-spinners "^2.6.0"
     coffee-loader "^1.0.1"
     commander "^6.2.1"
     draftlog "^1.0.12"
@@ -332,7 +333,7 @@
     json-format "^1.0.1"
     jszip "^3.5.0"
     length-stream "^0.1.1"
-    log-symbols "^5.0.0"
+    log-symbols "^4.1.0"
     minimist "^1.2.5"
     mkdirp "^1.0.4"
     node-loader "^1.0.2"
@@ -1740,7 +1741,7 @@ cli-cursor@^3.1.0:
   dependencies:
     restore-cursor "^3.1.0"
 
-cli-spinners@^2.5.0:
+cli-spinners@^2.5.0, cli-spinners@^2.6.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/cli-spinners/-/cli-spinners-2.6.0.tgz#36c7dc98fb6a9a76bd6238ec3f77e2425627e939"
   integrity sha512-t+4/y50K/+4xcCRosKkA7W4gTr1MySvLV0q+PxmG7FJ5g+66ChKurYjxBCjHggHH3HA5Hh9cy+lcUGWDqVH+4Q==
@@ -3164,11 +3165,6 @@ is-unicode-supported@^0.1.0:
   resolved "https://registry.yarnpkg.com/is-unicode-supported/-/is-unicode-supported-0.1.0.tgz#3f26c76a809593b52bfa2ecb5710ed2779b522a7"
   integrity sha512-knxG2q4UC3u8stRGyAVJCOdxFmv5DZiRcdlIaAQXAbSfJya+OhopNotLQrstBhququ4ZpuKbDc/8S6mgXgPFPw==
 
-is-unicode-supported@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/is-unicode-supported/-/is-unicode-supported-1.0.0.tgz#57284e13e7f5caefc7a45168285227e5c47d6413"
-  integrity sha512-TfeaLetCvWAJ/QjG8zBbr0H2LXE0m/Oatp25w0kgU2T/N+Xd2VMV3ENm/h3H4/ajBG9euaK2gsqipL4aCz8lTQ==
-
 is-windows@^1.0.1, is-windows@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/is-windows/-/is-windows-1.0.2.tgz#d1850eb9791ecd18e6182ce12a30f396634bb19d"
@@ -3979,14 +3975,6 @@ log-symbols@^4.1.0:
   dependencies:
     chalk "^4.1.0"
     is-unicode-supported "^0.1.0"
-
-log-symbols@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/log-symbols/-/log-symbols-5.0.0.tgz#7720d3c6a56c365e1f658916069ba18d941092ca"
-  integrity sha512-zBsSKauX7sM0kcqrf8VpMRPqcWzU6a/Wi7iEl0QlVSCiIZ4CctaLdfVdiZUn6q2/nenyt392qJqpw9FhNAwqxQ==
-  dependencies:
-    chalk "^4.1.0"
-    is-unicode-supported "^1.0.0"
 
 log-utils@^0.2.1:
   version "0.2.1"

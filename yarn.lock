@@ -1205,10 +1205,10 @@
     type-of "^2.0.1"
     webpack "^5.6.0"
 
-"@heat/npm-coffee-publisher@^0.1.6":
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/@heat/npm-coffee-publisher/-/npm-coffee-publisher-0.1.8.tgz#02ee936ae7b95922b405e812bc0bc37b8d105864"
-  integrity sha512-n2lCrdAf2l5oYTYrDQ4dpke+70FHDtT7lJkKHrQtTn3PWr9oULK1KCJ4lKH5sueRpQj7PJvulh14GdjvTUY4og==
+"@heat/npm-coffee-publisher@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@heat/npm-coffee-publisher/-/npm-coffee-publisher-0.2.0.tgz#4ed58eea33f0a423e4a22ecc1e1070f49bc9c8fc"
+  integrity sha512-zFuhxhQpizcLCXNuDIBitBbw+yifSjGwaT2Jpder25nWQXIoi6JelxCQPT0n0FNp32WdiKCiv1PpkoO0XQr4fA==
   dependencies:
     "@babel/core" "^7.4.0"
     babel-plugin-transform-es2015-modules-commonjs "^6.26.2"
@@ -3390,10 +3390,10 @@ draftlog@^1.0.12:
   resolved "https://registry.yarnpkg.com/draftlog/-/draftlog-1.0.13.tgz#2a415783955dbc6e2bb3b51a93c3d559f26b453d"
   integrity sha512-GeMWOpXERBpfVDK6v7m0x1hPg8+g8ZsZWqJl2T17wHqrm4h8fnjiZmXcnCrmwogAc6R3YTxFXax15wezfuyCUw==
 
-dynamo-db-local@^3.2.1:
-  version "3.2.7"
-  resolved "https://registry.yarnpkg.com/dynamo-db-local/-/dynamo-db-local-3.2.7.tgz#5c98feb9bac5e7e3aa8e3f901f35c8f5c729f33b"
-  integrity sha512-qOoP2Wfmws0NMwEl9lCxZfvplsh/59C81eOLNMdI/bg7fVsWfrWdPBRrDegFyeEByzRswrGbXehX9TJBXQOwmw==
+dynamo-db-local@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/dynamo-db-local/-/dynamo-db-local-4.0.2.tgz#5cf95dd3867ccb5f475c28934cc6d856a0db739e"
+  integrity sha512-YYkHfzP8qOtmieUc5nclSBtLdQ3T3y/JvssHQSmw5XHe0ljhwvZ+FGwIi1MQGJqyhJ3bLzrjrpBZ495IwsqtJg==
 
 ecc-jsbn@~0.1.1:
   version "0.1.2"

@@ -6,16 +6,23 @@ describe 'Test Redis server', ->
 
 	clients = []
 	servers = []
-	promises = [ 1 ].map (i) ->
-		redis = start { port: 6379 }
+	promises = [ 0...5 ].map (i) ->
+		redis = start()
 		clients.push redis.client()
 		servers.push redis
 
 	it 'should be able to connect and store an item in', ->
-		result = await new Promise (resolve, reject) ->
-			clients[0].SET 'test', 'test', (error) ->
-				clients[0].GET 'test', (error, data) ->
+
+		for client in clients
+			await new Promise (resolve) ->
+				client.SET 'test', 'test', (error) ->
+					resolve()
+
+			result = await new Promise (resolve) ->
+				client.GET 'test', (error, data) ->
 					resolve data
 
-		expect result
-			.toBe 'test'
+			expect result
+				.toBe 'test'
+
+		return

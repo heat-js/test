@@ -1,12 +1,16 @@
 
 import RedisServer		from 'redis-server'
 import redis			from 'redis'
+import path				from 'path'
+import fs				from 'fs'
+import os				from 'os'
 
 export default class Server
 
 	constructor: ->
 		@clients	= []
 		@port		= 80
+		@configFile	= path.join os.tmpdir(), "redis-config-file-#{ Math.floor Math.random() * 1000000000 }.conf"
 
 	flushData: ->
 		return new Promise (resolve, reject) =>
@@ -23,10 +27,18 @@ export default class Server
 			client.options.port = @port
 			client.connection_options.port = @port
 
+		data = """
+			save ""
+			appendonly no
+			port #{ @port }
+		"""
+
+		await fs.promises.writeFile @configFile, data
+
 		@process = new RedisServer {
-			port: @port
-			# conf: __dirname + '/redis.conf'
+			conf: @configFile
 		}
+
 		await @process.open()
 		await @flushData()
 
@@ -40,6 +52,9 @@ export default class Server
 
 		if @process
 			await @process.close()
+
+		await fs.promises.unlink @configFile
+
 
 	client: ->
 		client = redis.createClient {

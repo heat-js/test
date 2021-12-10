@@ -1,6 +1,6 @@
 {
   "name": "@heat/test",
-  "version": "0.2.101",
+  "version": "0.2.102",
   "license": "MIT",
   "private": false,
   "repository": {
@@ -27,7 +27,7 @@
     "@heat/awsless": "^0.1.76",
     "@heat/step-functions-local": "^0.0.6",
     "asl-validator": "^1.3.0",
-    "dynamo-db-local": "^3.2.1",
+    "dynamo-db-local": "^4.0.2",
     "get-port": "^5.0.0",
     "js-yaml": "^4.1.0",
     "koa": "^2.7.0",

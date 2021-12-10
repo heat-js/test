@@ -1,6 +1,6 @@
 {
   "name": "@heat/test",
-  "version": "0.2.102",
+  "version": "0.2.103",
   "license": "MIT",
   "private": false,
   "repository": {
@@ -36,7 +36,7 @@
     "redis-server": "^1.2.2"
   },
   "devDependencies": {
-    "@heat/npm-coffee-publisher": "^0.1.6",
+    "@heat/npm-coffee-publisher": "^0.2.0",
     "aws-sdk": "^2.473.0",
     "coffeescript": "^2.4.1",
     "jest": "^24.8.0",
